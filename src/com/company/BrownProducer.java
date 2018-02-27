@@ -1,11 +1,11 @@
 package com.company;
 
-public class RedProducer extends Thread {
+public class BrownProducer extends Thread {
     private SharedEntities sharedEntities;
     private int timeout;
-    private int number = 2002;
+    private int number = -3003;
 
-    RedProducer(int timeout, SharedEntities sharedEntities) {
+    BrownProducer(int timeout, SharedEntities sharedEntities) {
         this.timeout = timeout;
         this.sharedEntities = sharedEntities;
     }
@@ -14,7 +14,7 @@ public class RedProducer extends Thread {
         while(true) {
             try {
                 sleep(timeout);
-                sharedEntities.acquireRedSemaphore();
+                sharedEntities.acquireBrownSemaphore();
 
                 while(!sharedEntities.buffer.equals(""))
                     sleep(timeout/5);
@@ -22,9 +22,9 @@ public class RedProducer extends Thread {
                 sharedEntities.acquireBufferSemaphore();
                 sharedEntities.buffer = Integer.toString(number);
                 sharedEntities.releaseBufferSemaphore();
-                sharedEntities.releaseBrownSemaphore();
+                sharedEntities.releaseGreenSemaphore();
 
-                number += 2;
+                number -= 1;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

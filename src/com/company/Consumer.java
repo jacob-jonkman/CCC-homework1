@@ -17,7 +17,10 @@ public class Consumer extends Thread {
                 sharedEntities.acquireBufferSemaphore();
                 if(!sharedEntities.buffer.equals("")) {
                     number = Integer.parseInt(sharedEntities.buffer);
-                    if(number % 2 == 0) {
+                    if(number < 0) {
+                        System.out.println("Brown says " + number);
+                    }
+                    else if(number % 2 == 0) {
                         System.out.println("Red   says " + number);
                     }
                     else {

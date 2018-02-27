@@ -6,6 +6,8 @@ public class SharedEntities {
     private final Semaphore bufferSemaphore = new Semaphore(1);
     private final Semaphore redSemaphore = new Semaphore(0);
     private final Semaphore greenSemaphore = new Semaphore(1);
+    private final Semaphore brownSemaphore = new Semaphore(0);
+
     public String buffer = "";
 
     public void acquireBufferSemaphore() throws InterruptedException {
@@ -27,5 +29,12 @@ public class SharedEntities {
     }
     public void releaseGreenSemaphore() {
         greenSemaphore.release();
+    }
+
+    public void acquireBrownSemaphore() throws InterruptedException {
+        brownSemaphore.acquire();
+    }
+    public void releaseBrownSemaphore() {
+        brownSemaphore.release();
     }
 }
