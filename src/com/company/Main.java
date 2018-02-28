@@ -7,6 +7,7 @@ public class Main {
         GreenProducer greenProducer = new GreenProducer(500, sharedEntities);
         RedProducer redProducer = new RedProducer(300, sharedEntities);
 
+        //TEST//
         consumer.start();
         greenProducer.start();
         redProducer.start();
