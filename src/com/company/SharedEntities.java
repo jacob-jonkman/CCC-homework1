@@ -3,18 +3,28 @@ package com.company;
 import java.util.concurrent.Semaphore;
 
 public class SharedEntities {
-    private final Semaphore bufferSemaphore = new Semaphore(1);
-    private final Semaphore redSemaphore = new Semaphore(0);
+    private final Semaphore redBufferSemaphore = new Semaphore(0);
+    private final Semaphore greenBufferSemaphore = new Semaphore(0);
+    private final Semaphore redSemaphore = new Semaphore(1);
     private final Semaphore greenSemaphore = new Semaphore(1);
-    private final Semaphore brownSemaphore = new Semaphore(0);
+    private final Semaphore redRunningSemaphore = new Semaphore(0);
+    private final Semaphore greenRunningSemaphore = new Semaphore(0);
 
-    public String buffer = "";
+    public String consumerBuffer = "";
+    public String redBuffer = "";
 
-    public void acquireBufferSemaphore() throws InterruptedException {
-        bufferSemaphore.acquire();
+    public void acquireGreenBufferSemaphore() throws InterruptedException {
+        greenBufferSemaphore.acquire();
     }
-    public void releaseBufferSemaphore() {
-        bufferSemaphore.release();
+    public void releaseGreenBufferSemaphore() {
+        greenBufferSemaphore.release();
+    }
+
+    public void acquireRedBufferSemaphore() throws InterruptedException {
+        redBufferSemaphore.acquire();
+    }
+    public void releaseRedBufferSemaphore() {
+        redBufferSemaphore.release();
     }
 
     public void acquireRedSemaphore() throws InterruptedException {
@@ -31,10 +41,17 @@ public class SharedEntities {
         greenSemaphore.release();
     }
 
-    public void acquireBrownSemaphore() throws InterruptedException {
-        brownSemaphore.acquire();
+    public void acquireRedRunningSemaphore() throws InterruptedException {
+        redRunningSemaphore.acquire();
     }
-    public void releaseBrownSemaphore() {
-        brownSemaphore.release();
+    public void releaseRedRunningSemaphore() {
+        redRunningSemaphore.release();
+    }
+
+    public void acquireGreenRunningSemaphore() throws InterruptedException {
+        greenRunningSemaphore.acquire();
+    }
+    public void releaseGreenRunningSemaphore() {
+        greenRunningSemaphore.release();
     }
 }

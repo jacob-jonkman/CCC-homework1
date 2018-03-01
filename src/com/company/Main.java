@@ -6,11 +6,9 @@ public class Main {
         Consumer consumer = new Consumer(400, sharedEntities);
         GreenProducer greenProducer = new GreenProducer(500, sharedEntities);
         RedProducer redProducer = new RedProducer(300, sharedEntities);
-        BrownProducer brownProducer = new BrownProducer(600, sharedEntities);
 
         consumer.start();
         greenProducer.start();
         redProducer.start();
-        brownProducer.start();
     }
 }

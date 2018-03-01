@@ -14,15 +14,17 @@ public class GreenProducer extends Thread {
         while(true) {
             try {
                 sleep(timeout);
+
+                // Acquire buffer and perform dummy computation
                 sharedEntities.acquireGreenSemaphore();
+                sharedEntities.releaseGreenRunningSemaphore();
 
-                while(!sharedEntities.buffer.equals(""))
-                    sleep(timeout/5);
+                // Wait until the other process is ready to write
+                sharedEntities.acquireRedRunningSemaphore();
 
-                sharedEntities.acquireBufferSemaphore();
-                sharedEntities.buffer = Integer.toString(number);
-                sharedEntities.releaseBufferSemaphore();
-                sharedEntities.releaseRedSemaphore();
+                sharedEntities.consumerBuffer = Integer.toString(number);
+
+                sharedEntities.releaseGreenBufferSemaphore();
 
                 number += 2;
             } catch (InterruptedException e) {
