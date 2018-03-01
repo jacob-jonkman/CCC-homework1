@@ -3,7 +3,8 @@ package com.company;
 public class Consumer extends Thread {
     private SharedEntities sharedEntities;
     private int timeout;
-    private String output = "";
+    private int number = 0;
+    private Boolean redTurn = false;
 
     Consumer(int timeout, SharedEntities sharedEntities) {
         this.timeout = timeout;
@@ -14,19 +15,21 @@ public class Consumer extends Thread {
         while(true) {
             try {
                 sleep(timeout);
-                sharedEntities.acquireRedBufferSemaphore();
-                sharedEntities.acquireGreenBufferSemaphore();
+                sharedEntities.acquireBufferSemaphore();
+                if(!sharedEntities.redBuffer.equals("") && redTurn == true) {
+                    number = Integer.parseInt(sharedEntities.redBuffer);
+                    System.out.println("Red   says " + number);
+                    sharedEntities.redBuffer = "";
+                    redTurn = false;
+                }
+                else if(!sharedEntities.greenBuffer.equals("") && redTurn == false) {
+                    number = Integer.parseInt(sharedEntities.greenBuffer);
+                    System.out.println("Green says " + number);
+                    sharedEntities.greenBuffer = "";
+                    redTurn = true;
+                }
 
-                output = sharedEntities.consumerBuffer;
-                System.out.println("Red   says " + output);
-
-                output = sharedEntities.redBuffer;
-                System.out.println("Green says " + output);
-
-                sharedEntities.consumerBuffer = "";
-                sharedEntities.redBuffer = "";
-                sharedEntities.releaseGreenSemaphore();
-                sharedEntities.releaseRedSemaphore();
+                sharedEntities.releaseBufferSemaphore();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
